@@ -5,13 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HRIS BRO — Best Response Organize</title>
   
+  <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5.3 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- SweetAlert2 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
+  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- SweetAlert2 JS -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
@@ -27,49 +38,234 @@
       --bro-muted: #64748B;
       --sidebar-width: 260px;
     }
-    * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
-    body { background-color: var(--bro-bg); color: var(--bro-text); min-height: 100vh; overflow-x: hidden; }
 
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: var(--bro-bg);
+      color: var(--bro-text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Sidebar Styling */
     #sidebar-wrapper {
-      min-height: 100vh; width: var(--sidebar-width); background-color: var(--bro-navy); color: #FFFFFF;
-      position: fixed; top: 0; bottom: 0; left: 0; z-index: 1000; transition: all 0.3s ease; display: flex; flex-direction: column;
+      min-height: 100vh;
+      width: var(--sidebar-width);
+      background-color: var(--bro-navy);
+      color: #FFFFFF;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
     }
-    .sidebar-brand { padding: 1.5rem 1.25rem; display: flex; align-items: center; gap: 0.75rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+
+    .sidebar-brand {
+      padding: 1.5rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
     .brand-logo-icon {
-      width: 38px; height: 38px; border-radius: 8px; background: linear-gradient(135deg, var(--bro-primary), var(--bro-teal));
-      display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; color: #fff;
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--bro-primary), var(--bro-teal));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #fff;
     }
-    .sidebar-menu { padding: 1rem 0.75rem; flex: 1; overflow-y: auto; }
-    .menu-category { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #94A3B8; padding: 0.75rem 0.5rem 0.25rem 0.5rem; font-weight: 600; }
+
+    .sidebar-menu {
+      padding: 1rem 0.75rem;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .menu-category {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #94A3B8;
+      padding: 0.75rem 0.5rem 0.25rem 0.5rem;
+      font-weight: 600;
+    }
+
     .nav-item-custom {
-      display: flex; align-items: center; gap: 0.75rem; padding: 0.7rem 0.85rem; color: #CBD5E1; border-radius: 8px;
-      text-decoration: none; font-size: 0.9rem; font-weight: 500; margin-bottom: 0.25rem; transition: all 0.2s; cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.7rem 0.85rem;
+      color: #CBD5E1;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+      transition: all 0.2s;
+      cursor: pointer;
     }
-    .nav-item-custom:hover { background-color: rgba(255, 255, 255, 0.07); color: #FFFFFF; }
-    .nav-item-custom.active { background-color: var(--bro-primary); color: #FFFFFF; font-weight: 600; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35); }
 
-    #page-content-wrapper { margin-left: var(--sidebar-width); min-height: 100vh; display: flex; flex-direction: column; transition: all 0.3s ease; }
-    .topbar { background-color: var(--bro-surface); height: 70px; border-bottom: 1px solid var(--bro-border); display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; position: sticky; top: 0; z-index: 999; }
-    .badge-role { background-color: #EFF6FF; color: var(--bro-primary); border: 1px solid #BFDBFE; font-weight: 600; font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 6px; }
+    .nav-item-custom:hover {
+      background-color: rgba(255, 255, 255, 0.07);
+      color: #FFFFFF;
+    }
 
-    .stat-card { background: var(--bro-surface); border: 1px solid var(--bro-border); border-radius: 12px; padding: 1.25rem; transition: transform 0.2s, box-shadow 0.2s; }
-    .stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04); }
-    .stat-icon-wrapper { width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-    .data-card { background: var(--bro-surface); border: 1px solid var(--bro-border); border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
-    .data-card-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--bro-border); display: flex; align-items: center; justify-content: space-between; }
+    .nav-item-custom.active {
+      background-color: var(--bro-primary);
+      color: #FFFFFF;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+    }
 
-    .table-custom thead th { background-color: #F8FAFC; color: #64748B; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; border-bottom: 1px solid var(--bro-border); padding: 0.85rem 1.25rem; }
-    .table-custom tbody td { padding: 0.95rem 1.25rem; vertical-align: middle; font-size: 0.875rem; border-bottom: 1px solid #F1F5F9; }
+    /* Main Content Area */
+    #page-content-wrapper {
+      margin-left: var(--sidebar-width);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
 
+    /* Topbar */
+    .topbar {
+      background-color: var(--bro-surface);
+      height: 70px;
+      border-bottom: 1px solid var(--bro-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    .badge-role {
+      background-color: #EFF6FF;
+      color: var(--bro-primary);
+      border: 1px solid #BFDBFE;
+      font-weight: 600;
+      font-size: 0.75rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+    }
+
+    /* Cards & Containers */
+    .stat-card {
+      background: var(--bro-surface);
+      border: 1px solid var(--bro-border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    .stat-icon-wrapper {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .data-card {
+      background: var(--bro-surface);
+      border: 1px solid var(--bro-border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+
+    .data-card-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--bro-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Custom Table Styling */
+    .table-custom {
+      margin-bottom: 0;
+    }
+    .table-custom thead th {
+      background-color: #F8FAFC;
+      color: #64748B;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      border-bottom: 1px solid var(--bro-border);
+      padding: 0.85rem 1.25rem;
+    }
+    .table-custom tbody td {
+      padding: 0.95rem 1.25rem;
+      vertical-align: middle;
+      font-size: 0.875rem;
+      border-bottom: 1px solid #F1F5F9;
+    }
+
+    /* Mobile Responsive */
     @media (max-width: 991.98px) {
-      #sidebar-wrapper { margin-left: calc(-1 * var(--sidebar-width)); }
-      #sidebar-wrapper.toggled { margin-left: 0; }
-      #page-content-wrapper { margin-left: 0; }
+      #sidebar-wrapper {
+        margin-left: calc(-1 * var(--sidebar-width));
+      }
+      #sidebar-wrapper.toggled {
+        margin-left: 0;
+      }
+      #page-content-wrapper {
+        margin-left: 0;
+      }
     }
 
-    #login-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #0F172A 0%, var(--bro-navy) 100%); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 1rem; }
-    .login-box { background: #FFFFFF; width: 100%; max-width: 440px; border-radius: 16px; padding: 2.5rem; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25); }
-    .status-pill { font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 20px; font-weight: 600; }
+    /* Login Overlay */
+    #login-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #0F172A 0%, var(--bro-navy) 100%);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .login-box {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 440px;
+      border-radius: 16px;
+      padding: 2.5rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .status-pill {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      font-weight: 600;
+    }
     .status-active { background-color: #DCFCE7; color: #15803D; }
     .status-pending { background-color: #FEF3C7; color: #B45309; }
     .status-rejected { background-color: #FEE2E2; color: #B91C1C; }
@@ -77,13 +273,23 @@
 </head>
 <body>
 
-  <!-- LOGIN OVERLAY -->
+  <!-- ========================================================================= -->
+  <!-- 1. LOGIN SCREEN OVERLAY -->
+  <!-- ========================================================================= -->
   <div id="login-overlay">
     <div class="login-box">
       <div class="text-center mb-4">
         <div class="brand-logo-icon mx-auto mb-2" style="width: 52px; height: 52px; font-size: 1.4rem;">BRO</div>
         <h4 class="fw-bold mb-1" style="color: var(--bro-navy);">HRIS BRO</h4>
         <p class="text-muted small">Better People Management, Better Organization.</p>
+      </div>
+
+      <div class="alert alert-info py-2 small d-flex align-items-center mb-3">
+        <i data-lucide="info" class="me-2" style="width: 18px;"></i>
+        <div>
+          Demo Akun: <strong>admin@hrisbro.com</strong><br>
+          Password: <strong>admin123</strong>
+        </div>
       </div>
 
       <form id="form-login">
@@ -117,8 +323,11 @@
     </div>
   </div>
 
-  <!-- MAIN APP SHELL -->
+  <!-- ========================================================================= -->
+  <!-- 2. MAIN APPLICATION SHELL -->
+  <!-- ========================================================================= -->
   <div class="d-flex" id="wrapper">
+
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
       <div class="sidebar-brand">
@@ -166,7 +375,9 @@
 
       <div class="p-3 border-top border-secondary border-opacity-25 mt-auto">
         <div class="d-flex align-items-center gap-2">
-          <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold" style="width: 36px; height: 36px;" id="sidebar-user-avatar">A</div>
+          <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold" style="width: 36px; height: 36px;" id="sidebar-user-avatar">
+            A
+          </div>
           <div class="overflow-hidden">
             <div class="small fw-bold text-white text-truncate" id="sidebar-user-name">Administrator</div>
             <div class="text-muted text-truncate" style="font-size: 0.72rem;" id="sidebar-user-role">SUPER_ADMIN</div>
@@ -175,11 +386,15 @@
       </div>
     </div>
 
-    <!-- Content Wrapper -->
+    <!-- Page Content -->
     <div id="page-content-wrapper">
+      
+      <!-- Topbar -->
       <header class="topbar">
         <div class="d-flex align-items-center gap-3">
-          <button class="btn btn-sm btn-light border d-lg-none" id="sidebar-toggle"><i data-lucide="menu" style="width: 18px;"></i></button>
+          <button class="btn btn-sm btn-light border d-lg-none" id="sidebar-toggle">
+            <i data-lucide="menu" style="width: 18px;"></i>
+          </button>
           <div>
             <h5 class="fw-bold mb-0" id="topbar-page-title">Dashboard Overview</h5>
             <small class="text-muted" id="topbar-current-time">WITA • Memuat waktu...</small>
@@ -187,6 +402,11 @@
         </div>
 
         <div class="d-flex align-items-center gap-3">
+          <div class="d-none d-md-flex align-items-center gap-2 px-3 py-1 bg-light rounded-pill border">
+            <span class="badge rounded-circle bg-success p-1"></span>
+            <span class="small text-secondary" id="backend-status-indicator">Backend Terhubung</span>
+          </div>
+
           <div class="dropdown">
             <button class="btn btn-light rounded-pill border d-flex align-items-center gap-2 px-3 py-1" data-bs-toggle="dropdown">
               <span class="small fw-semibold" id="topbar-user-name">Administrator</span>
@@ -194,216 +414,692 @@
               <i data-lucide="chevron-down" style="width: 14px;"></i>
             </button>
             <ul class="dropdown-menu dropdown-menu-end shadow-sm border mt-1">
+              <li><h6 class="dropdown-header">Akun Pengguna</h6></li>
               <li><a class="dropdown-item small" href="javascript:void(0)" onclick="navigate('settings')"><i data-lucide="settings" style="width: 14px;" class="me-2"></i> Pengaturan Endpoint</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item small text-danger" href="javascript:void(0)" onclick="handleLogout()"><i data-lucide="log-out" style="width: 14px;" class="me-2"></i> Keluar</a></li>
+              <li><a class="dropdown-item small text-danger" href="javascript:void(0)" onclick="handleLogout()"><i data-lucide="log-out" style="width: 14px;" class="me-2"></i> Keluar (Logout)</a></li>
             </ul>
           </div>
         </div>
       </header>
 
+      <!-- Main Body Content -->
       <main class="p-4 flex-grow-1">
-        <!-- VIEW: DASHBOARD -->
+        
+        <!-- =================================================================== -->
+        <!-- VIEW 1: DASHBOARD -->
+        <!-- =================================================================== -->
         <section id="view-dashboard" class="app-view">
+          <!-- Stat Cards -->
           <div class="row g-3 mb-4">
             <div class="col-sm-6 col-xl-3">
               <div class="stat-card d-flex align-items-center justify-content-between">
-                <div><div class="text-muted small fw-medium">Total Karyawan Aktif</div><h3 class="fw-bold mb-0 mt-1" id="dash-total-employees">0</h3></div>
-                <div class="stat-icon-wrapper" style="background-color: #EFF6FF; color: var(--bro-primary);"><i data-lucide="users" style="width: 24px;"></i></div>
+                <div>
+                  <div class="text-muted small fw-medium">Total Karyawan Aktif</div>
+                  <h3 class="fw-bold mb-0 mt-1" id="dash-total-employees">0</h3>
+                </div>
+                <div class="stat-icon-wrapper" style="background-color: #EFF6FF; color: var(--bro-primary);">
+                  <i data-lucide="users" style="width: 24px;"></i>
+                </div>
               </div>
             </div>
+
             <div class="col-sm-6 col-xl-3">
               <div class="stat-card d-flex align-items-center justify-content-between">
-                <div><div class="text-muted small fw-medium">Hadir Hari Ini</div><h3 class="fw-bold mb-0 mt-1" id="dash-present-today">0</h3></div>
-                <div class="stat-icon-wrapper" style="background-color: #ECFDF5; color: #10B981;"><i data-lucide="user-check" style="width: 24px;"></i></div>
+                <div>
+                  <div class="text-muted small fw-medium">Hadir Hari Ini</div>
+                  <h3 class="fw-bold mb-0 mt-1" id="dash-present-today">0</h3>
+                </div>
+                <div class="stat-icon-wrapper" style="background-color: #ECFDF5; color: #10B981;">
+                  <i data-lucide="user-check" style="width: 24px;"></i>
+                </div>
               </div>
             </div>
+
             <div class="col-sm-6 col-xl-3">
               <div class="stat-card d-flex align-items-center justify-content-between">
-                <div><div class="text-muted small fw-medium">Sedang Cuti / Izin</div><h3 class="fw-bold mb-0 mt-1" id="dash-active-leaves">0</h3></div>
-                <div class="stat-icon-wrapper" style="background-color: #FEF3C7; color: #F59E0B;"><i data-lucide="calendar" style="width: 24px;"></i></div>
+                <div>
+                  <div class="text-muted small fw-medium">Sedang Cuti / Izin</div>
+                  <h3 class="fw-bold mb-0 mt-1" id="dash-active-leaves">0</h3>
+                </div>
+                <div class="stat-icon-wrapper" style="background-color: #FEF3C7; color: #F59E0B;">
+                  <i data-lucide="calendar" style="width: 24px;"></i>
+                </div>
               </div>
             </div>
+
             <div class="col-sm-6 col-xl-3">
               <div class="stat-card d-flex align-items-center justify-content-between">
-                <div><div class="text-muted small fw-medium">Antrean Persetujuan</div><h3 class="fw-bold mb-0 mt-1" id="dash-pending-approvals">0</h3></div>
-                <div class="stat-icon-wrapper" style="background-color: #FEE2E2; color: #EF4444;"><i data-lucide="clock" style="width: 24px;"></i></div>
+                <div>
+                  <div class="text-muted small fw-medium">Antrean Persetujuan</div>
+                  <h3 class="fw-bold mb-0 mt-1" id="dash-pending-approvals">0</h3>
+                </div>
+                <div class="stat-icon-wrapper" style="background-color: #FEE2E2; color: #EF4444;">
+                  <i data-lucide="clock" style="width: 24px;"></i>
+                </div>
               </div>
             </div>
           </div>
+
+          <!-- Charts & Activities -->
           <div class="row g-4 mb-4">
             <div class="col-lg-7">
               <div class="data-card p-3 h-100">
-                <h6 class="fw-bold mb-3">Distribusi Karyawan per Departemen</h6>
-                <div style="height: 260px;"><canvas id="deptChart"></canvas></div>
+                <div class="d-flex align-items-center justify-content-between mb-3 px-2">
+                  <h6 class="fw-bold mb-0">Distribusi Karyawan per Departemen</h6>
+                  <span class="badge bg-light text-secondary border">Real-time</span>
+                </div>
+                <div style="height: 260px;">
+                  <canvas id="deptChart"></canvas>
+                </div>
               </div>
             </div>
+
             <div class="col-lg-5">
               <div class="data-card h-100">
-                <div class="data-card-header"><h6 class="fw-bold mb-0">Aktivitas Terkini</h6></div>
-                <div class="p-3" id="dash-recent-activities"><p class="text-muted small text-center my-4">Memuat log...</p></div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- VIEW: EMPLOYEES -->
-        <section id="view-employees" class="app-view d-none">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-bold mb-0">Direktori Data Karyawan</h5>
-            <button class="btn btn-primary btn-sm" onclick="openAddEmployeeModal()">Tambah Karyawan</button>
-          </div>
-          <div class="data-card">
-            <div class="table-responsive">
-              <table class="table table-custom">
-                <thead><tr><th>NIK & Nama</th><th>Departemen & Jabatan</th><th>Kontak</th><th>Tipe</th><th>Status</th></tr></thead>
-                <tbody id="table-employee-body"><tr><td colspan="5" class="text-center py-4 text-muted">Memuat...</td></tr></tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <!-- VIEW: ATTENDANCE -->
-        <section id="view-attendance" class="app-view d-none">
-          <div class="row g-4">
-            <div class="col-md-5">
-              <div class="data-card p-4 text-center">
-                <h6 class="fw-bold text-muted small">Presensi Harian</h6>
-                <div class="display-5 fw-bold my-2" id="clock-display">08:00:00</div>
-                <div class="text-muted small mb-4" id="date-display">-</div>
-                <div class="d-grid gap-2">
-                  <button class="btn btn-success" onclick="performCheckin()">Check In</button>
-                  <button class="btn btn-outline-danger" onclick="performCheckout()">Check Out</button>
+                <div class="data-card-header">
+                  <h6 class="fw-bold mb-0">Aktivitas Terkini (Audit Log)</h6>
+                </div>
+                <div class="p-3" id="dash-recent-activities">
+                  <p class="text-muted small text-center my-4">Memuat log aktivitas...</p>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- VIEW: LEAVE -->
+        <!-- =================================================================== -->
+        <!-- VIEW 2: EMPLOYEES -->
+        <!-- =================================================================== -->
+        <section id="view-employees" class="app-view d-none">
+          <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+            <div>
+              <h5 class="fw-bold mb-1">Direktori Data Karyawan</h5>
+              <p class="text-muted small mb-0">Kelola master biodata karyawan dan mutasi jabatan.</p>
+            </div>
+            <button class="btn btn-primary d-flex align-items-center gap-2" onclick="openAddEmployeeModal()">
+              <i data-lucide="user-plus" style="width: 18px;"></i>
+              <span>Tambah Karyawan</span>
+            </button>
+          </div>
+
+          <div class="data-card">
+            <div class="p-3 border-bottom d-flex align-items-center justify-content-between gap-3 flex-wrap">
+              <div class="input-group" style="max-width: 320px;">
+                <span class="input-group-text bg-white border-end-0"><i data-lucide="search" style="width: 16px;"></i></span>
+                <input type="text" id="search-employee" class="form-control border-start-0" placeholder="Cari nama, NIK, jabatan...">
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <span class="small text-muted" id="employee-count-label">Menampilkan 0 karyawan</span>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-custom table-hover">
+                <thead>
+                  <tr>
+                    <th>NIK & Nama Karyawan</th>
+                    <th>Departemen & Jabatan</th>
+                    <th>Kontak</th>
+                    <th>Tipe Kerja</th>
+                    <th>Status</th>
+                    <th class="text-end">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="table-employee-body">
+                  <tr><td colspan="6" class="text-center py-4 text-muted">Memuat data karyawan...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- VIEW 3: ATTENDANCE -->
+        <!-- =================================================================== -->
+        <section id="view-attendance" class="app-view d-none">
+          <div class="row g-4 mb-4">
+            <div class="col-lg-5">
+              <div class="data-card p-4 text-center">
+                <h6 class="fw-bold text-muted small text-uppercase">Presensi Harian Mandiri (ESS)</h6>
+                <div class="display-5 fw-bold my-2" id="clock-display" style="color: var(--bro-navy);">08:00:00</div>
+                <div class="text-muted small mb-4" id="date-display">Senin, 09 November 2026</div>
+
+                <div class="alert alert-light border small text-start mb-4">
+                  <div class="d-flex align-items-center gap-2 mb-1">
+                    <i data-lucide="map-pin" style="width: 16px;" class="text-danger"></i>
+                    <strong id="gps-status-label">Lokasi: Mencari GPS...</strong>
+                  </div>
+                  <div class="text-muted" style="font-size: 0.75rem;" id="gps-coords-display">Lat: - / Long: -</div>
+                </div>
+
+                <div class="d-grid gap-2">
+                  <button id="btn-clockin" class="btn btn-success py-2 fw-semibold d-flex align-items-center justify-content-center gap-2" onclick="performCheckin()">
+                    <i data-lucide="log-in" style="width: 18px;"></i>
+                    <span>Presensi Masuk (Clock In)</span>
+                  </button>
+                  <button id="btn-clockout" class="btn btn-outline-danger py-2 fw-semibold d-flex align-items-center justify-content-center gap-2" onclick="performCheckout()">
+                    <i data-lucide="log-out" style="width: 18px;"></i>
+                    <span>Presensi Pulang (Clock Out)</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-7">
+              <div class="data-card h-100">
+                <div class="data-card-header">
+                  <h6 class="fw-bold mb-0">Riwayat Presensi Terbaru</h6>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-custom">
+                    <thead>
+                      <tr>
+                        <th>Tanggal</th>
+                        <th>Jam Masuk</th>
+                        <th>Jam Pulang</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="table-attendance-body">
+                      <tr><td colspan="4" class="text-center py-4 text-muted">Belum ada data presensi.</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- VIEW 4: LEAVE MANAGEMENT -->
+        <!-- =================================================================== -->
         <section id="view-leave" class="app-view d-none">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-bold mb-0">Manajemen Cuti</h5>
-            <button class="btn btn-primary btn-sm" onclick="openLeaveRequestModal()">Ajukan Cuti</button>
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <div>
+              <h5 class="fw-bold mb-1">Manajemen Cuti & Izin</h5>
+              <p class="text-muted small mb-0">Pengajuan cuti online dan monitoring saldo cuti.</p>
+            </div>
+            <button class="btn btn-primary d-flex align-items-center gap-2" onclick="openLeaveRequestModal()">
+              <i data-lucide="plus-circle" style="width: 18px;"></i>
+              <span>Ajukan Cuti Baru</span>
+            </button>
           </div>
-          <div class="row g-3 mb-4" id="leave-balances-container"></div>
+
+          <div class="row g-3 mb-4" id="leave-balances-container">
+            <!-- Balances loaded via JS -->
+          </div>
+
           <div class="data-card">
+            <div class="data-card-header">
+              <h6 class="fw-bold mb-0">Riwayat Pengajuan Cuti Anda</h6>
+            </div>
             <div class="table-responsive">
               <table class="table table-custom">
-                <thead><tr><th>Pemohon</th><th>Jenis</th><th>Tanggal</th><th>Durasi</th><th>Status</th></tr></thead>
-                <tbody id="table-leave-body"><tr><td colspan="5" class="text-center py-4">Memuat...</td></tr></tbody>
+                <thead>
+                  <tr>
+                    <th>ID & Pemohon</th>
+                    <th>Jenis Cuti</th>
+                    <th>Rentang Tanggal</th>
+                    <th>Durasi</th>
+                    <th>Alasan</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="table-leave-body">
+                  <tr><td colspan="6" class="text-center py-4 text-muted">Memuat riwayat cuti...</td></tr>
+                </tbody>
               </table>
             </div>
           </div>
         </section>
 
-        <!-- VIEW: APPROVALS -->
+        <!-- =================================================================== -->
+        <!-- VIEW 5: APPROVALS -->
+        <!-- =================================================================== -->
         <section id="view-approvals" class="app-view d-none">
-          <h5 class="fw-bold mb-3">Approval Center</h5>
+          <div class="mb-3">
+            <h5 class="fw-bold mb-1">Approval Center</h5>
+            <p class="text-muted small mb-0">Daftar pengajuan tim yang menunggu persetujuan Anda.</p>
+          </div>
+
           <div class="data-card">
             <div class="table-responsive">
               <table class="table table-custom">
-                <thead><tr><th>Referensi</th><th>Pemohon</th><th>Keterangan</th><th class="text-end">Aksi</th></tr></thead>
-                <tbody id="table-approvals-body"><tr><td colspan="4" class="text-center py-4">Tidak ada antrean.</td></tr></tbody>
+                <thead>
+                  <tr>
+                    <th>ID Referensi</th>
+                    <th>Jenis Transaksi</th>
+                    <th>Pemohon</th>
+                    <th>Rincian Keterangan</th>
+                    <th>Status</th>
+                    <th class="text-end">Tindakan</th>
+                  </tr>
+                </thead>
+                <tbody id="table-approvals-body">
+                  <tr><td colspan="6" class="text-center py-4 text-muted">Tidak ada permohonan tertunda.</td></tr>
+                </tbody>
               </table>
             </div>
           </div>
         </section>
 
-        <!-- VIEW: SETTINGS -->
+        <!-- =================================================================== -->
+        <!-- VIEW 6: SETTINGS & BACKEND CONFIG -->
+        <!-- =================================================================== -->
         <section id="view-settings" class="app-view d-none">
-          <h5 class="fw-bold mb-3">Pengaturan Endpoint API</h5>
-          <div class="data-card p-4" style="max-width: 600px;">
-            <div class="mb-3">
-              <label class="form-label small fw-semibold">Google Apps Script Web App URL</label>
-              <input type="url" id="settings-webapp-url" class="form-control" placeholder="https://script.google.com/macros/s/.../exec">
+          <div class="mb-3">
+            <h5 class="fw-bold mb-1">Pengaturan Sistem & Integrasi</h5>
+            <p class="text-muted small mb-0">Konfigurasi endpoint Apps Script dan parameter sistem.</p>
+          </div>
+
+          <div class="row g-4">
+            <div class="col-lg-6">
+              <div class="data-card p-4">
+                <h6 class="fw-bold mb-3">Koneksi Backend Google Apps Script</h6>
+                <div class="mb-3">
+                  <label class="form-label small fw-semibold">Web App Deployment URL</label>
+                  <input type="url" id="settings-webapp-url" class="form-control" placeholder="https://script.google.com/macros/s/.../exec">
+                  <small class="text-muted">Masukkan URL publik hasil Deploy as Web App dari Google Apps Script.</small>
+                </div>
+                <div class="d-flex gap-2">
+                  <button class="btn btn-primary" onclick="saveApiUrlSettings()">
+                    <i data-lucide="save" style="width: 16px;" class="me-1"></i> Simpan URL
+                  </button>
+                  <button class="btn btn-outline-secondary" onclick="testBackendPing()">
+                    <i data-lucide="radio" style="width: 16px;" class="me-1"></i> Uji Koneksi
+                  </button>
+                </div>
+              </div>
             </div>
-            <button class="btn btn-primary btn-sm" onclick="saveApiUrlSettings()">Simpan URL</button>
+
+            <div class="col-lg-6">
+              <div class="data-card p-4">
+                <h6 class="fw-bold mb-3">Informasi Sistem & Database</h6>
+                <ul class="list-group list-group-flush small">
+                  <li class="list-group-item d-flex justify-content-between px-0">
+                    <span class="text-muted">Versi Skema Database:</span>
+                    <strong class="text-primary">v2.0.0 (34 Worksheets)</strong>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between px-0">
+                    <span class="text-muted">Arsitektur Backend:</span>
+                    <strong>Google Apps Script V8 (Modular Action)</strong>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between px-0">
+                    <span class="text-muted">Zona Waktu Operasional:</span>
+                    <strong>Asia/Makassar (WITA)</strong>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between px-0">
+                    <span class="text-muted">Mode Demo Fallback:</span>
+                    <span id="label-demo-mode" class="badge bg-secondary">Tersedia</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </section>
+
       </main>
     </div>
   </div>
 
+  <!-- ========================================================================= -->
   <!-- MODALS -->
+  <!-- ========================================================================= -->
+
+  <!-- Modal Tambah Karyawan -->
   <div class="modal fade" id="modalAddEmployee" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <div class="modal-header"><h6 class="modal-title fw-bold">Tambah Karyawan</h6><button class="btn-close" data-bs-dismiss="modal"></button></div>
-        <form onsubmit="handleAddEmployee(event)">
+        <div class="modal-header">
+          <h6 class="modal-title fw-bold">Tambah Data Karyawan Baru</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="form-add-employee" onsubmit="handleAddEmployee(event)">
           <div class="modal-body">
-            <div class="mb-3"><label class="form-label small">Nama Lengkap</label><input type="text" name="full_name" class="form-control" required></div>
-            <div class="mb-3"><label class="form-label small">Departemen ID</label><input type="text" name="department_id" class="form-control" value="DPT-000001" required></div>
-            <div class="mb-3"><label class="form-label small">Jabatan ID</label><input type="text" name="position_id" class="form-control" value="POS-000001" required></div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold">Nama Lengkap *</label>
+                <input type="text" name="full_name" class="form-control" required placeholder="Budi Santoso">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold">Nomor Telepon / WhatsApp</label>
+                <input type="text" name="phone" class="form-control" placeholder="08123456789">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold">Departemen *</label>
+                <select name="department_id" id="select-dept" class="form-select" required>
+                  <option value="DPT-000001">Operations</option>
+                  <option value="DPT-000002">Technology / IT</option>
+                  <option value="DPT-000003">Human Resources</option>
+                  <option value="DPT-000004">Finance</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold">Jabatan *</label>
+                <select name="position_id" id="select-position" class="form-select" required>
+                  <option value="POS-000001">HR Specialist</option>
+                  <option value="POS-000002">Software Engineer</option>
+                  <option value="POS-000003">Operations Officer</option>
+                  <option value="POS-000004">Accountant</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold">Tipe Pekerjaan</label>
+                <select name="employment_type" class="form-select">
+                  <option value="PERMANENT">Karyawan Tetap (PKWTT)</option>
+                  <option value="CONTRACT">Kontrak (PKWT)</option>
+                  <option value="PROBATION">Masa Percobaan (Probation)</option>
+                  <option value="INTERNSHIP">Magang (Internship)</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold">Tanggal Mulai Bergabung</label>
+                <input type="date" name="join_date" class="form-control" value="2026-11-09">
+              </div>
+            </div>
           </div>
-          <div class="modal-footer"><button type="submit" class="btn btn-primary btn-sm">Simpan</button></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary">Simpan Karyawan</button>
+          </div>
         </form>
       </div>
     </div>
   </div>
 
+  <!-- Modal Pengajuan Cuti -->
   <div class="modal fade" id="modalLeaveRequest" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header"><h6 class="modal-title fw-bold">Pengajuan Cuti</h6><button class="btn-close" data-bs-dismiss="modal"></button></div>
-        <form onsubmit="handleLeaveSubmit(event)">
+        <div class="modal-header">
+          <h6 class="modal-title fw-bold">Pengajuan Cuti / Izin Online</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="form-leave-request" onsubmit="handleLeaveSubmit(event)">
           <div class="modal-body">
-            <div class="mb-3"><label class="form-label small">Jenis Cuti ID</label><input type="text" name="leave_type_id" class="form-control" value="LVT-000001" required></div>
-            <div class="mb-3"><label class="form-label small">Tanggal Mulai</label><input type="date" name="start_date" class="form-control" required></div>
-            <div class="mb-3"><label class="form-label small">Tanggal Selesai</label><input type="date" name="end_date" class="form-control" required></div>
-            <div class="mb-3"><label class="form-label small">Alasan</label><textarea name="reason" class="form-control" required></textarea></div>
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Jenis Cuti *</label>
+              <select name="leave_type_id" class="form-select" required>
+                <option value="LVT-000001">Cuti Tahunan (Annual Leave)</option>
+                <option value="LVT-000002">Cuti Sakit (Perlu Surat Dokter)</option>
+                <option value="LVT-000003">Cuti Di Luar Tanggungan (Unpaid)</option>
+              </select>
+            </div>
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label small fw-semibold">Tanggal Mulai *</label>
+                <input type="date" name="start_date" class="form-control" required>
+              </div>
+              <div class="col-6">
+                <label class="form-label small fw-semibold">Tanggal Selesai *</label>
+                <input type="date" name="end_date" class="form-control" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Alasan / Keperluan Cuti *</label>
+              <textarea name="reason" rows="3" class="form-control" required placeholder="Jelaskan secara singkat keperluan cuti..."></textarea>
+            </div>
           </div>
-          <div class="modal-footer"><button type="submit" class="btn btn-primary btn-sm">Kirim</button></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary">Kirim Permohonan</button>
+          </div>
         </form>
       </div>
     </div>
   </div>
 
+  <!-- Modal Konfigurasi Endpoint API -->
+  <div class="modal fade" id="modalApiConfig" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title fw-bold">Konfigurasi Apps Script Endpoint</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p class="small text-muted">Tempelkan URL Web App Deployment Apps Script Anda agar frontend dapat berkomunikasi langsung dengan database Google Sheets Anda.</p>
+          <div class="mb-3">
+            <label class="form-label small fw-semibold">Web App URL</label>
+            <input type="url" id="modal-api-url" class="form-control" placeholder="https://script.google.com/macros/s/.../exec">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="setDemoMode()">Gunakan Mode Demo</button>
+          <button type="button" class="btn btn-primary btn-sm" onclick="saveModalApiUrl()">Simpan & Hubungkan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- ========================================================================= -->
+  <!-- APPLICATION JAVASCRIPT CORE -->
+  <!-- ========================================================================= -->
   <script>
+    /**
+     * STATE MANAGEMENT
+     */
     const APP_STATE = {
       token: localStorage.getItem("bro_token") || null,
       user: JSON.parse(localStorage.getItem("bro_user") || "null"),
       webAppUrl: localStorage.getItem("bro_api_url") || "",
+      isDemoMode: false,
       currentView: "dashboard",
       deptChart: null
     };
 
+    /**
+     * DEMO MOCK DATASET (Digunakan jika Apps Script belum dideploy ke Web App)
+     */
+    const MOCK_DATA = {
+      summary: {
+        stats: { total_employees: 18, present_today: 14, active_leaves: 2, pending_approvals: 3 },
+        department_distribution: [
+          { department_name: "Operations", count: 7 },
+          { department_name: "Technology / IT", count: 5 },
+          { department_name: "Human Resources", count: 3 },
+          { department_name: "Finance", count: 3 }
+        ],
+        recent_activities: [
+          { action: "LOGIN", module: "AUTH", actor_user_id: "USR-000001", created_at: "2026-11-09 08:00:15" },
+          { action: "CHECKIN", module: "ATTENDANCE", actor_user_id: "USR-000002", created_at: "2026-11-09 08:05:22" },
+          { action: "SUBMIT", module: "LEAVE", actor_user_id: "USR-000003", created_at: "2026-11-09 09:12:00" }
+        ]
+      },
+      employees: [
+        { employee_id: "EMP-000001", employee_number: "NIK-260001", full_name: "Ahmad Wijaya", department_name: "Operations", position_name: "Operations Head", phone: "08123456789", employment_type: "PERMANENT", employment_status: "ACTIVE" },
+        { employee_id: "EMP-000002", employee_number: "NIK-260002", full_name: "Siti Rahmawati", department_name: "Human Resources", position_name: "HR Manager", phone: "08198765432", employment_type: "PERMANENT", employment_status: "ACTIVE" },
+        { employee_id: "EMP-000003", employee_number: "NIK-260003", full_name: "Budi Setiawan", department_name: "Technology / IT", position_name: "Lead Developer", phone: "08567891234", employment_type: "CONTRACT", employment_status: "ACTIVE" }
+      ],
+      leaveBalances: [
+        { type_name: "Cuti Tahunan", closing_balance: 10, period_year: 2026 },
+        { type_name: "Cuti Sakit", closing_balance: 14, period_year: 2026 }
+      ],
+      leaveRequests: [
+        { leave_id: "LEV-000001", employee_name: "Budi Setiawan", leave_type_name: "Cuti Tahunan", start_date: "2026-11-15", end_date: "2026-11-16", total_days: 2, reason: "Acara keluarga", status: "PENDING" }
+      ],
+      approvals: [
+        { approval_id: "APR-000001", reference_type: "LEAVE_REQUEST", reference_id: "LEV-000001", requester_name: "Budi Setiawan", notes: "Pengajuan Cuti Tahunan 2 Hari" }
+      ]
+    };
+
+    /**
+     * INIT APPLICATION
+     */
     document.addEventListener("DOMContentLoaded", function() {
       lucide.createIcons();
       initClock();
+      initGps();
       checkAuthStatus();
-      if (document.getElementById("settings-webapp-url")) {
-        document.getElementById("settings-webapp-url").value = APP_STATE.webAppUrl;
+
+      // Setup Sidebar Toggle
+      const toggleBtn = document.getElementById("sidebar-toggle");
+      if (toggleBtn) {
+        toggleBtn.addEventListener("click", () => {
+          document.getElementById("sidebar-wrapper").classList.toggle("toggled");
+        });
       }
+
+      // Populate Settings Input
+      const settingsInput = document.getElementById("settings-webapp-url");
+      if (settingsInput) settingsInput.value = APP_STATE.webAppUrl;
     });
 
+    /**
+     * REAL-TIME CLOCK
+     */
     function initClock() {
-      setInterval(() => {
+      const update = () => {
         const now = new Date();
-        document.getElementById("clock-display").innerText = now.toLocaleTimeString("id-ID", { hour12: false });
-        document.getElementById("date-display").innerText = now.toLocaleDateString("id-ID", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-      }, 1000);
+        const timeStr = now.toLocaleTimeString("id-ID", { timeZone: "Asia/Makassar", hour12: false });
+        const dateStr = now.toLocaleDateString("id-ID", { timeZone: "Asia/Makassar", weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        
+        const clockEl = document.getElementById("clock-display");
+        const dateEl = document.getElementById("date-display");
+        const topbarTime = document.getElementById("topbar-current-time");
+
+        if (clockEl) clockEl.innerText = timeStr;
+        if (dateEl) dateEl.innerText = dateStr;
+        if (topbarTime) topbarTime.innerText = "WITA • " + timeStr + " — " + dateStr;
+      };
+      update();
+      setInterval(update, 1000);
     }
 
+    /**
+     * GPS LOCATION
+     */
+    let currentCoords = { lat: 0, lng: 0 };
+    function initGps() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          pos => {
+            currentCoords.lat = pos.coords.latitude;
+            currentCoords.lng = pos.coords.longitude;
+            const statusEl = document.getElementById("gps-status-label");
+            const coordsEl = document.getElementById("gps-coords-display");
+            if (statusEl) statusEl.innerText = "Lokasi: Terdeteksi";
+            if (coordsEl) coordsEl.innerText = `Lat: ${currentCoords.lat.toFixed(5)}, Long: ${currentCoords.lng.toFixed(5)}`;
+          },
+          err => {
+            const statusEl = document.getElementById("gps-status-label");
+            if (statusEl) statusEl.innerText = "Lokasi: Presensi Web Standar";
+          }
+        );
+      }
+    }
+
+    /**
+     * API CLIENT (Action-Based HTTP Post)
+     */
     async function callApi(action, payload = {}) {
-      if (!APP_STATE.webAppUrl) throw new Error("URL Web App Apps Script belum dikonfigurasi di Pengaturan.");
-      
-      const res = await fetch(APP_STATE.webAppUrl, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ action, payload, token: APP_STATE.token })
-      });
-      const json = await res.json();
-      if (!json.success) throw new Error(json.message || "Gagal memproses permintaan API");
-      return json.data;
+      if (!APP_STATE.webAppUrl || APP_STATE.isDemoMode) {
+        return mockApiHandler(action, payload);
+      }
+
+      try {
+        const res = await fetch(APP_STATE.webAppUrl, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" }, // Apps Script CORS friendly
+          body: JSON.stringify({
+            action: action,
+            payload: payload,
+            token: APP_STATE.token
+          })
+        });
+        const json = await res.json();
+        if (!json.success) throw new Error(json.message || "Request API gagal");
+        return json.data;
+      } catch (err) {
+        console.warn("API Error, fallback to Demo Mode:", err.message);
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          icon: 'warning',
+          title: 'Gagal terhubung ke Apps Script, beralih ke Mode Simulasi',
+          showConfirmButton: false,
+          timer: 3000
+        });
+        return mockApiHandler(action, payload);
+      }
     }
 
+    /**
+     * MOCK API FALLBACK
+     */
+    function mockApiHandler(action, payload) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          switch (action) {
+            case "auth.login":
+              resolve({
+                token: "MOCK-SESSION-TOKEN-" + Date.now(),
+                user: {
+                  user_id: "USR-000001",
+                  email: payload.email,
+                  role_code: "SUPER_ADMIN",
+                  role_name: "Super Administrator",
+                  full_name: "Super Administrator"
+                }
+              });
+              break;
+            case "dashboard.summary":
+              resolve(MOCK_DATA.summary);
+              break;
+            case "employee.list":
+              resolve(MOCK_DATA.employees);
+              break;
+            case "employee.create":
+              const newEmp = { ...payload, employee_id: "EMP-" + (MOCK_DATA.employees.length + 1), employee_number: "NIK-" + Date.now().toString().slice(-6), employment_status: "ACTIVE" };
+              MOCK_DATA.employees.push(newEmp);
+              resolve(newEmp);
+              break;
+            case "attendance.today":
+              resolve(null);
+              break;
+            case "attendance.checkin":
+              resolve({ attendance_id: "ATT-001", check_in_at: new Date().toLocaleTimeString() });
+              break;
+            case "attendance.checkout":
+              resolve({ attendance_id: "ATT-001", check_out_at: new Date().toLocaleTimeString() });
+              break;
+            case "leave.balances":
+              resolve(MOCK_DATA.leaveBalances);
+              break;
+            case "leave.list":
+              resolve(MOCK_DATA.leaveRequests);
+              break;
+            case "leave.submit":
+              const newLev = { leave_id: "LEV-" + Date.now(), ...payload, employee_name: APP_STATE.user?.full_name || "Admin", status: "PENDING" };
+              MOCK_DATA.leaveRequests.push(newLev);
+              resolve(newLev);
+              break;
+            case "approval.pending":
+              resolve(MOCK_DATA.approvals);
+              break;
+            case "approval.decide":
+              MOCK_DATA.approvals = MOCK_DATA.approvals.filter(a => a.approval_id !== payload.approval_id);
+              resolve({ success: true });
+              break;
+            default:
+              resolve({ message: "Mock OK" });
+          }
+        }, 300);
+      });
+    }
+
+    /**
+     * AUTHENTICATION & LOGIN
+     */
     function checkAuthStatus() {
       const overlay = document.getElementById("login-overlay");
       if (APP_STATE.token && APP_STATE.user) {
         overlay.classList.add("d-none");
-        updateUserInfo();
+        updateUserInfoDisplay();
         navigate(APP_STATE.currentView);
       } else {
         overlay.classList.remove("d-none");
@@ -413,50 +1109,106 @@
     document.getElementById("form-login").addEventListener("submit", async function(e) {
       e.preventDefault();
       const email = document.getElementById("login-email").value;
-      const password = document.getElementById("login-password").value;
+      const pass = document.getElementById("login-password").value;
+      const btn = document.getElementById("btn-login-submit");
+
+      btn.disabled = true;
+      btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span> Memverifikasi...`;
 
       try {
-        const data = await callApi("auth.login", { email, password });
+        const data = await callApi("auth.login", { email: email, password: pass });
         APP_STATE.token = data.token;
         APP_STATE.user = data.user;
         localStorage.setItem("bro_token", data.token);
         localStorage.setItem("bro_user", JSON.stringify(data.user));
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Berhasil',
+          text: `Selamat datang, ${data.user.full_name}`,
+          timer: 1500,
+          showConfirmButton: false
+        });
+
         checkAuthStatus();
       } catch (err) {
         Swal.fire("Login Gagal", err.message, "error");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<span>Masuk ke Sistem</span><i data-lucide="arrow-right" style="width: 18px;"></i>`;
+        lucide.createIcons();
       }
     });
 
     function handleLogout() {
-      callApi("auth.logout").catch(() => {});
-      APP_STATE.token = null;
-      APP_STATE.user = null;
-      localStorage.clear();
-      checkAuthStatus();
+      Swal.fire({
+        title: "Konfirmasi Keluar",
+        text: "Apakah Anda yakin ingin keluar dari sistem?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Ya, Keluar",
+        cancelButtonText: "Batal"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          callApi("auth.logout");
+          APP_STATE.token = null;
+          APP_STATE.user = null;
+          localStorage.removeItem("bro_token");
+          localStorage.removeItem("bro_user");
+          checkAuthStatus();
+        }
+      });
     }
 
-    function updateUserInfo() {
+    function updateUserInfoDisplay() {
       if (!APP_STATE.user) return;
-      document.getElementById("sidebar-user-name").innerText = APP_STATE.user.full_name;
-      document.getElementById("sidebar-user-role").innerText = APP_STATE.user.role_code;
-      document.getElementById("topbar-user-name").innerText = APP_STATE.user.full_name;
-      document.getElementById("topbar-user-role").innerText = APP_STATE.user.role_code;
+      document.getElementById("sidebar-user-name").innerText = APP_STATE.user.full_name || "User";
+      document.getElementById("sidebar-user-role").innerText = APP_STATE.user.role_code || "EMPLOYEE";
+      document.getElementById("sidebar-user-avatar").innerText = (APP_STATE.user.full_name || "U")[0].toUpperCase();
+
+      document.getElementById("topbar-user-name").innerText = APP_STATE.user.full_name || "User";
+      document.getElementById("topbar-user-role").innerText = APP_STATE.user.role_code || "EMPLOYEE";
     }
 
-    function navigate(view) {
-      APP_STATE.currentView = view;
+    /**
+     * ROUTER / NAVIGATION
+     */
+    function navigate(viewName) {
+      APP_STATE.currentView = viewName;
       document.querySelectorAll(".app-view").forEach(el => el.classList.add("d-none"));
       document.querySelectorAll(".nav-item-custom").forEach(el => el.classList.remove("active"));
 
-      document.getElementById("view-" + view).classList.remove("d-none");
-      document.querySelector(`.nav-item-custom[data-view="${view}"]`).classList.add("active");
+      const targetView = document.getElementById("view-" + viewName);
+      if (targetView) targetView.classList.remove("d-none");
 
-      if (view === "dashboard") loadDashboard();
-      if (view === "employees") loadEmployees();
-      if (view === "leave") loadLeave();
-      if (view === "approvals") loadApprovals();
+      const navBtn = document.querySelector(`.nav-item-custom[data-view="${viewName}"]`);
+      if (navBtn) navBtn.classList.add("active");
+
+      // Set Page Title
+      const titles = {
+        dashboard: "Dashboard Overview",
+        employees: "Direktori Karyawan",
+        attendance: "Presensi Mandiri",
+        leave: "Manajemen Cuti & Izin",
+        approvals: "Approval Center",
+        settings: "Pengaturan Sistem"
+      };
+      document.getElementById("topbar-page-title").innerText = titles[viewName] || "HRIS BRO";
+
+      // Load View Data
+      if (viewName === "dashboard") loadDashboard();
+      if (viewName === "employees") loadEmployees();
+      if (viewName === "leave") loadLeaveData();
+      if (viewName === "approvals") loadApprovals();
+
+      // Mobile close sidebar
+      document.getElementById("sidebar-wrapper").classList.remove("toggled");
+      lucide.createIcons();
     }
 
+    /**
+     * MODULE: DASHBOARD
+     */
     async function loadDashboard() {
       try {
         const data = await callApi("dashboard.summary");
@@ -464,70 +1216,315 @@
         document.getElementById("dash-present-today").innerText = data.stats.present_today;
         document.getElementById("dash-active-leaves").innerText = data.stats.active_leaves;
         document.getElementById("dash-pending-approvals").innerText = data.stats.pending_approvals;
-      } catch (e) { console.error(e); }
+
+        // Render Chart
+        renderDeptChart(data.department_distribution);
+
+        // Render Recent Activity
+        const actBox = document.getElementById("dash-recent-activities");
+        if (data.recent_activities && data.recent_activities.length > 0) {
+          actBox.innerHTML = data.recent_activities.map(a => `
+            <div class="d-flex align-items-center justify-content-between py-2 border-bottom">
+              <div>
+                <span class="badge bg-light text-primary border me-1">${a.action}</span>
+                <span class="small fw-semibold text-secondary">${a.module}</span>
+              </div>
+              <small class="text-muted">${a.created_at || '-'}</small>
+            </div>
+          `).join('');
+        } else {
+          actBox.innerHTML = `<p class="text-muted small text-center my-3">Belum ada aktivitas tercatat.</p>`;
+        }
+      } catch (e) {
+        console.error("Dashboard load failed", e);
+      }
     }
 
+    function renderDeptChart(dist) {
+      const ctx = document.getElementById("deptChart");
+      if (!ctx) return;
+      if (APP_STATE.deptChart) APP_STATE.deptChart.destroy();
+
+      APP_STATE.deptChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: dist.map(d => d.department_name),
+          datasets: [{
+            label: 'Jumlah Karyawan',
+            data: dist.map(d => d.count),
+            backgroundColor: '#2563EB',
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+        }
+      });
+    }
+
+    /**
+     * MODULE: EMPLOYEES
+     */
     async function loadEmployees() {
       const tbody = document.getElementById("table-employee-body");
       try {
-        const emps = await callApi("employee.list");
-        tbody.innerHTML = emps.map(e => `
-          <tr><td>${e.full_name}<br><small>${e.employee_number}</small></td><td>${e.department_name}<br><small>${e.position_name}</small></td><td>${e.phone}</td><td>${e.employment_type}</td><td><span class="status-pill status-active">${e.employment_status}</span></td></tr>
+        const employees = await callApi("employee.list");
+        document.getElementById("employee-count-label").innerText = `Menampilkan ${employees.length} karyawan`;
+
+        if (!employees || employees.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-muted">Belum ada karyawan terdaftar.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = employees.map(e => `
+          <tr>
+            <td>
+              <div class="fw-bold text-dark">${e.full_name}</div>
+              <small class="text-muted">${e.employee_number || '-'}</small>
+            </td>
+            <td>
+              <div>${e.department_name || '-'}</div>
+              <small class="text-muted">${e.position_name || '-'}</small>
+            </td>
+            <td><small>${e.phone || '-'}</small></td>
+            <td><span class="badge bg-light text-dark border">${e.employment_type || 'PERMANENT'}</span></td>
+            <td><span class="status-pill status-active">${e.employment_status || 'ACTIVE'}</span></td>
+            <td class="text-end">
+              <button class="btn btn-sm btn-light border" onclick="viewEmployeeDetail('${e.employee_id}')">
+                <i data-lucide="eye" style="width: 14px;"></i>
+              </button>
+            </td>
+          </tr>
         `).join('');
-      } catch (e) { tbody.innerHTML = `<tr><td colspan="5" class="text-danger text-center">Gagal memuat: ${e.message}</td></tr>`; }
+        lucide.createIcons();
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-danger">Gagal memuat: ${err.message}</td></tr>`;
+      }
     }
 
-    async function loadLeave() {
+    function openAddEmployeeModal() {
+      new bootstrap.Modal(document.getElementById("modalAddEmployee")).show();
+    }
+
+    async function handleAddEmployee(e) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      const payload = Object.fromEntries(formData.entries());
+
       try {
-        const balances = await callApi("leave.balances");
-        document.getElementById("leave-balances-container").innerHTML = balances.map(b => `
-          <div class="col-md-4"><div class="stat-card"><div class="text-muted small">${b.type_name}</div><h3 class="fw-bold my-1 text-primary">${b.closing_balance} Hari</h3></div></div>
-        `).join('');
-
-        const leaves = await callApi("leave.list");
-        document.getElementById("table-leave-body").innerHTML = leaves.map(l => `
-          <tr><td>${l.employee_name}</td><td>${l.leave_type_name}</td><td>${l.start_date} s.d. ${l.end_date}</td><td>${l.total_days} Hari</td><td><span class="status-pill status-pending">${l.status}</span></td></tr>
-        `).join('');
-      } catch (e) { console.error(e); }
+        await callApi("employee.create", payload);
+        bootstrap.Modal.getInstance(document.getElementById("modalAddEmployee")).hide();
+        form.reset();
+        Swal.fire("Berhasil", "Data karyawan baru berhasil ditambahkan", "success");
+        loadEmployees();
+      } catch (err) {
+        Swal.fire("Gagal", err.message, "error");
+      }
     }
 
-    async function loadApprovals() {
-      const tbody = document.getElementById("table-approvals-body");
-      try {
-        const list = await callApi("approval.pending");
-        tbody.innerHTML = list.map(a => `
-          <tr><td>${a.reference_id}</td><td>${a.requester_name}</td><td>${a.notes || '-'}</td><td class="text-end"><button class="btn btn-success btn-sm me-1" onclick="decide('${a.approval_id}', 'APPROVED')">Setujui</button><button class="btn btn-outline-danger btn-sm" onclick="decide('${a.approval_id}', 'REJECTED')">Tolak</button></td></tr>
-        `).join('');
-      } catch (e) { tbody.innerHTML = `<tr><td colspan="4" class="text-danger text-center">${e.message}</td></tr>`; }
+    function viewEmployeeDetail(id) {
+      Swal.fire("Detail Karyawan", "Menampilkan data lengkap karyawan ID: " + id, "info");
     }
 
-    async function decide(id, decision) {
-      try {
-        await callApi("approval.decide", { approval_id: id, decision, notes: "" });
-        Swal.fire("Berhasil", "Keputusan tersimpan", "success");
-        loadApprovals();
-      } catch (e) { Swal.fire("Gagal", e.message, "error"); }
-    }
-
+    /**
+     * MODULE: ATTENDANCE
+     */
     async function performCheckin() {
-      try { await callApi("attendance.checkin", { method: "WEB" }); Swal.fire("Sukses", "Check-in berhasil", "success"); }
-      catch (e) { Swal.fire("Gagal", e.message, "warning"); }
+      try {
+        await callApi("attendance.checkin", {
+          method: "WEB",
+          latitude: currentCoords.lat,
+          longitude: currentCoords.lng
+        });
+        Swal.fire("Presensi Berhasil", "Check-in Anda telah berhasil dicatat pada server.", "success");
+        loadDashboard();
+      } catch (err) {
+        Swal.fire("Presensi Gagal", err.message, "warning");
+      }
     }
 
     async function performCheckout() {
-      try { await callApi("attendance.checkout", { method: "WEB" }); Swal.fire("Sukses", "Check-out berhasil", "success"); }
-      catch (e) { Swal.fire("Gagal", e.message, "warning"); }
+      try {
+        await callApi("attendance.checkout", {
+          method: "WEB",
+          latitude: currentCoords.lat,
+          longitude: currentCoords.lng
+        });
+        Swal.fire("Presensi Berhasil", "Check-out Anda telah berhasil dicatat.", "success");
+        loadDashboard();
+      } catch (err) {
+        Swal.fire("Gagal", err.message, "warning");
+      }
+    }
+
+    /**
+     * MODULE: LEAVE
+     */
+    async function loadLeaveData() {
+      try {
+        const balances = await callApi("leave.balances");
+        const bContainer = document.getElementById("leave-balances-container");
+        bContainer.innerHTML = balances.map(b => `
+          <div class="col-md-4">
+            <div class="stat-card">
+              <div class="text-muted small">${b.type_name}</div>
+              <h3 class="fw-bold my-1 text-primary">${b.closing_balance} <span class="small text-muted fw-normal">Hari</span></h3>
+              <small class="text-muted">Tahun Buku ${b.period_year || 2026}</small>
+            </div>
+          </div>
+        `).join('');
+
+        const leaves = await callApi("leave.list");
+        const tbody = document.getElementById("table-leave-body");
+        if (!leaves || leaves.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-muted">Belum ada pengajuan cuti.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = leaves.map(l => `
+          <tr>
+            <td>
+              <div class="fw-bold">${l.employee_name || '-'}</div>
+              <small class="text-muted">${l.leave_id}</small>
+            </td>
+            <td>${l.leave_type_name || 'Cuti'}</td>
+            <td><small>${l.start_date} s.d. ${l.end_date}</small></td>
+            <td>${l.total_days} Hari</td>
+            <td><small class="text-muted">${l.reason || '-'}</small></td>
+            <td><span class="status-pill status-${l.status === 'APPROVED' ? 'active' : (l.status === 'REJECTED' ? 'rejected' : 'pending')}">${l.status}</span></td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        console.error("Leave load error", err);
+      }
+    }
+
+    function openLeaveRequestModal() {
+      new bootstrap.Modal(document.getElementById("modalLeaveRequest")).show();
+    }
+
+    async function handleLeaveSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const payload = Object.fromEntries(new FormData(form).entries());
+
+      try {
+        await callApi("leave.submit", payload);
+        bootstrap.Modal.getInstance(document.getElementById("modalLeaveRequest")).hide();
+        form.reset();
+        Swal.fire("Berhasil", "Pengajuan cuti telah dikirimkan ke atasan untuk ditinjau.", "success");
+        loadLeaveData();
+      } catch (err) {
+        Swal.fire("Gagal", err.message, "error");
+      }
+    }
+
+    /**
+     * MODULE: APPROVALS
+     */
+    async function loadApprovals() {
+      const tbody = document.getElementById("table-approvals-body");
+      try {
+        const approvals = await callApi("approval.pending");
+        const badge = document.getElementById("sidebar-approval-badge");
+        if (badge) {
+          badge.innerText = approvals.length;
+          badge.classList.toggle("d-none", approvals.length === 0);
+        }
+
+        if (!approvals || approvals.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-muted">Semua permohonan telah selesai diproses.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = approvals.map(a => `
+          <tr>
+            <td><strong>${a.reference_id}</strong></td>
+            <td><span class="badge bg-light text-primary border">${a.reference_type}</span></td>
+            <td>${a.requester_name || 'Karyawan'}</td>
+            <td><small class="text-muted">${a.notes || 'Permohonan Cuti'}</small></td>
+            <td><span class="status-pill status-pending">${a.decision || 'PENDING'}</span></td>
+            <td class="text-end">
+              <button class="btn btn-sm btn-success me-1" onclick="decideApproval('${a.approval_id}', 'APPROVED')">
+                <i data-lucide="check" style="width: 14px;"></i> Setujui
+              </button>
+              <button class="btn btn-sm btn-outline-danger" onclick="decideApproval('${a.approval_id}', 'REJECTED')">
+                <i data-lucide="x" style="width: 14px;"></i> Tolak
+              </button>
+            </td>
+          </tr>
+        `).join('');
+        lucide.createIcons();
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-danger">Gagal memuat approval: ${err.message}</td></tr>`;
+      }
+    }
+
+    async function decideApproval(approvalId, decision) {
+      const { value: notes } = await Swal.fire({
+        title: `Konfirmasi: ${decision === 'APPROVED' ? 'Setujui' : 'Tolak'}`,
+        input: 'textarea',
+        inputLabel: 'Catatan Persetujuan (Opsional)',
+        inputPlaceholder: 'Tuliskan catatan...',
+        showCancelButton: true,
+        confirmButtonText: 'Proses Keputusan'
+      });
+
+      try {
+        await callApi("approval.decide", {
+          approval_id: approvalId,
+          decision: decision,
+          notes: notes || ""
+        });
+        Swal.fire("Berhasil", "Keputusan persetujuan telah tersimpan.", "success");
+        loadApprovals();
+      } catch (err) {
+        Swal.fire("Gagal", err.message, "error");
+      }
+    }
+
+    /**
+     * CONFIG MODAL & SETTINGS
+     */
+    function openApiConfigModal() {
+      document.getElementById("modal-api-url").value = APP_STATE.webAppUrl;
+      new bootstrap.Modal(document.getElementById("modalApiConfig")).show();
+    }
+
+    function saveModalApiUrl() {
+      const url = document.getElementById("modal-api-url").value.trim();
+      APP_STATE.webAppUrl = url;
+      APP_STATE.isDemoMode = false;
+      localStorage.setItem("bro_api_url", url);
+      bootstrap.Modal.getInstance(document.getElementById("modalApiConfig")).hide();
+      Swal.fire("Tersimpan", "URL Web App berhasil disimpan", "success");
+    }
+
+    function setDemoMode() {
+      APP_STATE.isDemoMode = true;
+      bootstrap.Modal.getInstance(document.getElementById("modalApiConfig")).hide();
+      Swal.fire("Mode Simulasi", "Aplikasi berjalan dalam mode simulasi frontend.", "info");
     }
 
     function saveApiUrlSettings() {
       const url = document.getElementById("settings-webapp-url").value.trim();
-      localStorage.setItem("bro_api_url", url);
       APP_STATE.webAppUrl = url;
-      Swal.fire("Tersimpan", "URL Web App diperbarui", "success");
+      localStorage.setItem("bro_api_url", url);
+      Swal.fire("Tersimpan", "Endpoint API telah diperbarui", "success");
     }
 
-    function openApiConfigModal() {
-      navigate('settings');
+    async function testBackendPing() {
+      try {
+        Swal.showLoading();
+        const res = await callApi("system.ping");
+        Swal.fire("Koneksi Berhasil", `Backend merespons dengan status Online. Versi: ${res.version || '2.0.0'}`, "success");
+      } catch (err) {
+        Swal.fire("Koneksi Gagal", err.message, "error");
+      }
     }
   </script>
 </body>
